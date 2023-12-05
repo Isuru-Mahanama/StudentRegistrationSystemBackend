@@ -1,11 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace StudentRegistrationSystem.Models.Domain
+﻿namespace StudentRegistrationSystem.Models.DTO
 {
-    public class Student
+    public class CreateStudentDTO
     {
-        [Key]
-        public long studentID { get; set; }
         public string firstName { get; set; }
         public string lastName { get; set; }
         public string middleName { get; set; }
@@ -13,7 +9,6 @@ namespace StudentRegistrationSystem.Models.Domain
         public string gender { get; set; }
         public string academicProgramme { get; set; }
         public DateTime birthday { get; set; }
-        public DateTime enrolledDate { get; set;}
-
+        public DateTime enrolledDate { get; set; }
     }
 }
