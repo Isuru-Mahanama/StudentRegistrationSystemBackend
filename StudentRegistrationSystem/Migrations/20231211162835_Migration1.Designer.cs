@@ -12,8 +12,8 @@ using StudentRegistrationSystem.Data;
 namespace StudentRegistrationSystem.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231204111050_initial Migration")]
-    partial class initialMigration
+    [Migration("20231211162835_Migration1")]
+    partial class Migration1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -52,21 +52,21 @@ namespace StudentRegistrationSystem.Migrations
 
             modelBuilder.Entity("StudentRegistrationSystem.Models.Domain.Student", b =>
                 {
-                    b.Property<long>("studentID")
+                    b.Property<int>("studentID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("studentID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("studentID"));
 
                     b.Property<string>("academicProgramme")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateOnly>("birthday")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("birthday")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateOnly>("enrolledDate")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("enrolledDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("firstName")
                         .IsRequired()
@@ -77,10 +77,6 @@ namespace StudentRegistrationSystem.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("lastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("middleName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

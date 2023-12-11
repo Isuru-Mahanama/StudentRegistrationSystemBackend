@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace StudentRegistrationSystem.Migrations
 {
     /// <inheritdoc />
-    public partial class initialMigration : Migration
+    public partial class Migration1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -30,16 +30,15 @@ namespace StudentRegistrationSystem.Migrations
                 name: "students",
                 columns: table => new
                 {
-                    studentID = table.Column<long>(type: "bigint", nullable: false)
+                    studentID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     firstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     lastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    middleName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     phoneNumber = table.Column<int>(type: "int", nullable: false),
                     gender = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     academicProgramme = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    birthday = table.Column<DateOnly>(type: "date", nullable: false),
-                    enrolledDate = table.Column<DateOnly>(type: "date", nullable: false)
+                    birthday = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    enrolledDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {

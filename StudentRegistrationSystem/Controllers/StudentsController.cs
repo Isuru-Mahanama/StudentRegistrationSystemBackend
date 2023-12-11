@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.Identity.Client;
 using StudentRegistrationSystem.Data;
 using StudentRegistrationSystem.Models.Domain;
@@ -24,17 +25,17 @@ namespace StudentRegistrationSystem.Controllers
         [HttpPost]
         public async Task<IActionResult> enterStudentDetails(Models.DTO.CreateStudentDTO request)
         {
-           
+
+            Console.WriteLine(request);
             //Map the DTO to Domain model
             var createStudent = new Student
             {
                 firstName = request.firstName,
                 lastName = request.lastName,
-                middleName = request.middleName,
                 phoneNumber = request.phoneNumber,
                 gender = request.gender,
                 academicProgramme = request.academicProgramme,
-                birthday = request.birthday,
+                birthday = request.birthday ,
                 enrolledDate = request.enrolledDate
             };
             //abstracting the implemetation to the repository
@@ -45,7 +46,6 @@ namespace StudentRegistrationSystem.Controllers
                 studentID = createStudent.studentID,
                 firstName = createStudent.firstName,
                 lastName = createStudent.lastName,
-                middleName = createStudent.middleName,
                 phoneNumber = createStudent.phoneNumber,
                 gender = createStudent.gender,
                 academicProgramme = createStudent.academicProgramme,
