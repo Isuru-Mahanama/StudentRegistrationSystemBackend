@@ -9,5 +9,8 @@
         public string academicProgramme { get; set; }
         public DateTime birthday { get; set; }
         public DateTime enrolledDate { get; set; }
+        public string no { get; set; }
+        public string street { get; set; }
+        public string district { get; set; }
     }
 }
