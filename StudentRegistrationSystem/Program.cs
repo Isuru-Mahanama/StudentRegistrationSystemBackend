@@ -17,6 +17,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("StudentManagementConnectionString2"));
 });
 
+
+
 //inject the service 
 builder.Services.AddScoped<IStudentRepository,StudentRepository>();
 
