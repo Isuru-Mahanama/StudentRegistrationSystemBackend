@@ -12,5 +12,6 @@ namespace StudentRegistrationSystem.Data
         //codefirst Approach - creating the table
         public DbSet<Student> students { get; set; }
         public DbSet<Address> addresses { get; set; }
+        public DbSet<User> users { get; set; }
     }
 }
