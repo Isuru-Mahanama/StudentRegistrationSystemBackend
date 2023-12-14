@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using StudentRegistrationSystem.Models.Domain;
@@ -54,26 +55,22 @@ namespace StudentRegistrationSystem.Controllers
         //Login the User
 
         [HttpPost("login")]
-        public ActionResult<User> Login(UserDTO request)
+        public ActionResult<string> Login(UserLoginDTO request)
         {
+            user.email = request.email;
+            user.passwordHash = request.passwordHash;
             Console.WriteLine("HI");
 
-            if (superAdmin.email == request.email && superAdmin.passwordHash == request.passwordHash)
+            if (superAdmin.email == user.email && superAdmin.passwordHash == user.passwordHash)
             {
+                user.userType = "Admin";
+                user.userID = 1;
                 string tokenSuperAdmin = createTokensAdmin(user);
-                return Ok(tokenSuperAdmin);
+                return Ok(tokenSuperAdmin); 
             }
-
-            if (user.email != request.email)
-            {
-                return BadRequest("User not found");
-            }
-
-           if(!BCrypt.Net.BCrypt.Verify(request.passwordHash ,user.passwordHash))
-            {
-                return BadRequest("Wrong Password");
-            }
-
+            
+           
+            
             string token = createTokensUser(user);
             return Ok(token);
 
