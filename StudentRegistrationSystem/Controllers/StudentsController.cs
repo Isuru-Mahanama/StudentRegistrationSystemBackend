@@ -39,6 +39,18 @@ namespace StudentRegistrationSystem.Controllers
             };
 
             User createdUser = await userRepository.CreateAsync(createUser);
+
+              string GenerateOrderedEmail(int userID)
+              {
+
+                // Customize the logic for generating ordered emails based on your requirements
+                string prefix = "m";
+                string suffix = "@example.com";
+                string orderedEmail = $"{prefix}{userID}{suffix}";
+
+                return orderedEmail;
+               }
+            string email = GenerateOrderedEmail(createdUser.userID);
             //Map the DTO to Domain model
             var createStudent = new Student
             {
@@ -51,7 +63,8 @@ namespace StudentRegistrationSystem.Controllers
                 birthday = request.birthday ,
                 enrolledDate = request.enrolledDate,
             };
-                
+             createdUser.email = email;
+            await userRepository.CreateAsync(createUser);
             //abstracting the implemetation to the repository
             await studentRepository.CreateAsync(createStudent);
 

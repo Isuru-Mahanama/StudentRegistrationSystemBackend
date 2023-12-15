@@ -32,28 +32,6 @@ namespace StudentRegistrationSystem.Models.Domain
 
             return new string(password);
         }
-
-
-        public async Task GenerateEmailAsync(DbContext dbContext)
-        {
-            // Assuming dbContext is your Entity Framework DbContext
-            // Save the entity to the database
-            dbContext.Add(this);
-            await dbContext.SaveChangesAsync();
-
-            // Now, you can use the generated userID to create the email
-            email = GenerateOrderedEmail(userID);
-        }
-
-        private static string GenerateOrderedEmail(int userID)
-        {
-           
-            // Customize the logic for generating ordered emails based on your requirements
-            string prefix = "m";
-            string suffix = "@example.com";
-            string orderedEmail = $"{prefix}{userID}{suffix}";
-
-            return orderedEmail;
-        }
+       
     }
 }
