@@ -38,7 +38,7 @@ namespace StudentRegistrationSystem.Controllers
                 userType = EnumRoles.Student
             };
 
-          //  await userRepository.CreateAsync(createUser);
+             await userRepository.CreateAsync(createUser);
             //Map the DTO to Domain model
             var createStudent = new Student
             {
