@@ -11,5 +11,6 @@
         public string academicProgramme { get; set; }
         public DateTime birthday { get; set; }
         public DateTime enrolledDate { get; set; }
+        
     }
 }

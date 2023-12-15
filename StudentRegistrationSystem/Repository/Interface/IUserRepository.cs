@@ -2,8 +2,8 @@
 
 namespace StudentRegistrationSystem.Repository.Interface
 {
-    public interface IStudentRepository
+    public interface IUserRepository
     {
-        Task<Student> CreateAsync(Student student);
+        Task<User> CreateAsync(User user);
     }
 }

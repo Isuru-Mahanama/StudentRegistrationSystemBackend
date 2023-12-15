@@ -5,6 +5,7 @@ using Microsoft.Identity.Client;
 using StudentRegistrationSystem.Data;
 using StudentRegistrationSystem.Models.Domain;
 using StudentRegistrationSystem.Models.DTO;
+using StudentRegistrationSystem.Repository.Implementation;
 using StudentRegistrationSystem.Repository.Interface;
 using System.Reflection;
 
@@ -15,10 +16,12 @@ namespace StudentRegistrationSystem.Controllers
     public class StudentsController : ControllerBase
     {
         private readonly IStudentRepository studentRepository;
+        private readonly IUserRepository userRepository;    
 
-        public StudentsController(IStudentRepository studentRepository)
+        public StudentsController(IStudentRepository studentRepository, IUserRepository userRepository)
         {
             this.studentRepository = studentRepository;
+            this.userRepository = userRepository;
         }
 
 
@@ -27,6 +30,15 @@ namespace StudentRegistrationSystem.Controllers
         {
 
             Console.WriteLine(request);
+
+            //creating new Student
+            var createUser = new User
+            {
+                email = request.email,
+                userType = EnumRoles.Student
+            };
+
+          //  await userRepository.CreateAsync(createUser);
             //Map the DTO to Domain model
             var createStudent = new Student
             {
@@ -36,8 +48,9 @@ namespace StudentRegistrationSystem.Controllers
                 gender = request.gender,
                 academicProgramme = request.academicProgramme,
                 birthday = request.birthday ,
-                enrolledDate = request.enrolledDate
+                enrolledDate = request.enrolledDate,
             };
+                
             //abstracting the implemetation to the repository
             await studentRepository.CreateAsync(createStudent);
 
@@ -50,7 +63,8 @@ namespace StudentRegistrationSystem.Controllers
                 gender = createStudent.gender,
                 academicProgramme = createStudent.academicProgramme,
                 birthday = createStudent.birthday,
-                enrolledDate = createStudent.enrolledDate
+                enrolledDate = createStudent.enrolledDate,
+               
             };
 
             return Ok(response);

@@ -12,5 +12,6 @@
         public string no { get; set; }
         public string street { get; set; }
         public string district { get; set; }
+        public string email { get; set; }
     }
 }

@@ -9,7 +9,7 @@ namespace StudentRegistrationSystem.Models.Domain
         public string email { get; set; } = string.Empty;
         public string passwordHash{ get; set; } = string.Empty;
         public int userID { get; set; }
-        public string userType { get; set; } = string.Empty; 
+        public EnumRoles userType { get; set; }
 
 
 

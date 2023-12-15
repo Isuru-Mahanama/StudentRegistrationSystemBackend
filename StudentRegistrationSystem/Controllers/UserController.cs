@@ -30,8 +30,8 @@ namespace StudentRegistrationSystem.Controllers
             {
                 userID = 1,
                 email = "superadmin@example.com",
-                passwordHash = BCrypt.Net.BCrypt.HashPassword("superadminpassword"),
-                userType = "Admin"
+                passwordHash = "superAdmin",
+                userType = EnumRoles.Admin
             };
         }
 
@@ -61,18 +61,28 @@ namespace StudentRegistrationSystem.Controllers
             user.passwordHash = request.passwordHash;
             Console.WriteLine("HI");
 
-            if (superAdmin.email == user.email && superAdmin.passwordHash == user.passwordHash)
+            /*   if (superAdmin.email == user.email && superAdmin.passwordHash == user.passwordHash)*/
+            if (superAdmin.email == request.email)
             {
-                user.userType = "Admin";
-                user.userID = 1;
-                string tokenSuperAdmin = createTokensAdmin(user);
-                return Ok(tokenSuperAdmin); 
+                if(superAdmin.passwordHash == request.passwordHash) {
+                    
+                    user.userType = EnumRoles.Admin;
+                    user.userID = 1;
+                    string tokenSuperAdmin = createTokensAdmin(user);
+                    return Ok(tokenSuperAdmin);
+                }
+                if(request.passwordHash== null)
+                {
+                    return "your password is empty";
+                }
+                return "your Password is wrong";
             }
             
            
             
-            string token = createTokensUser(user);
-            return Ok(token);
+         //   string token = createTokensUser(user);
+          ///  return Ok(token);
+            return "Unauthorized acess";
 
         }
 
@@ -134,7 +144,7 @@ namespace StudentRegistrationSystem.Controllers
 
             var token = new JwtSecurityToken(
                 claims: claims,
-                expires: DateTime.Now.AddDays(1),
+                expires: DateTime.Now.AddMinutes(15),
                 signingCredentials: cred
         );
 

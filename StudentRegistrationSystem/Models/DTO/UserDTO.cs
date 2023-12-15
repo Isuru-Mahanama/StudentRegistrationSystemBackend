@@ -6,6 +6,6 @@
         public required string passwordHash { get; set; } 
 
         public required int userID { get; set; }
-        public required string userType { get; set; } 
+        public  enum userType; 
     }
 }
