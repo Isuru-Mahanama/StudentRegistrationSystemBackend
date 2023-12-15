@@ -34,7 +34,7 @@ namespace StudentRegistrationSystem.Controllers
             //creating new Student
             var createUser = new User
             {
-                email = request.email,
+               
                 userType = EnumRoles.Student
             };
 
@@ -69,5 +69,7 @@ namespace StudentRegistrationSystem.Controllers
 
             return Ok(response);
         }
+
+
     }
 }
