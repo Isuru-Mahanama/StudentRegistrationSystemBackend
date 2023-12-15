@@ -15,9 +15,9 @@ namespace StudentRegistrationSystem.Models.Domain
         [Key]
         public int userID { get; set; }
         public EnumRoles userType { get; set; }
+        public Student Student { get; set; }
 
-       
-       
+
         private static string GenerateRandomPassword()
         {
             const string allowedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";

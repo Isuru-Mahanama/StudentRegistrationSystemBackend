@@ -1,4 +1,6 @@
-﻿namespace StudentRegistrationSystem.Models.DTO
+﻿using StudentRegistrationSystem.Models.Domain;
+
+namespace StudentRegistrationSystem.Models.DTO
 {
     public class StudentDTO
     {

@@ -13,5 +13,20 @@ namespace StudentRegistrationSystem.Data
         public DbSet<Student> students { get; set; }
         public DbSet<Address> addresses { get; set; }
         public DbSet<User> users { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<User>()
+                .HasKey(u => u.userID);
+            modelBuilder.Entity<Student>()
+                .HasKey(s => s.studentID);
+
+            modelBuilder.Entity<Student>()     // Assuming userID is the shared primary key
+                .HasOne(s => s.User)
+                .WithOne(u => u.Student)
+                .HasForeignKey<Student>(s => s.studentID);
+
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }
