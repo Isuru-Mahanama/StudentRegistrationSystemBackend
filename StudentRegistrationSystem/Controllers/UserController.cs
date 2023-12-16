@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using StudentRegistrationSystem.Models.Domain;
 using StudentRegistrationSystem.Models.DTO;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Text;
 
@@ -51,7 +52,12 @@ namespace StudentRegistrationSystem.Controllers
             return Ok(user);
 
         }
-
+        //Getting the registered user details
+        [HttpGet("getUserDetails")]
+        public ActionResult<User> getUserDetails()
+        {
+            return Ok(user);
+        }
         //Login the User
 
         [HttpPost("login")]

@@ -78,7 +78,8 @@ namespace StudentRegistrationSystem.Controllers
                 academicProgramme = createStudent.academicProgramme,
                 birthday = createStudent.birthday,
                 enrolledDate = createStudent.enrolledDate,
-               
+                email = createdUser.email,
+                passwordHash = createdUser.passwordHash
             };
 
             return Ok(response);
