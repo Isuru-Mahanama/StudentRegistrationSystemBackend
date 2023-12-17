@@ -2,9 +2,12 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using StudentRegistrationSystem.Models.Domain;
 using StudentRegistrationSystem.Models.DTO;
+using StudentRegistrationSystem.Repository.Implementation;
+using StudentRegistrationSystem.Repository.Interface;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net.Http.Headers;
 using System.Security.Claims;
@@ -19,6 +22,7 @@ namespace StudentRegistrationSystem.Controllers
         
         public static User user = new User();
         private readonly IConfiguration configuration;
+        private readonly IUserRepository userRepository;
 
         //SuperAdmin
 
@@ -36,8 +40,9 @@ namespace StudentRegistrationSystem.Controllers
             };
         }
 
-        public UserController(IConfiguration configuration) {
+        public UserController(IConfiguration configuration, IUserRepository userRepository) {
             this.configuration = configuration;
+            this.userRepository = userRepository;
         }
         //Registering the User
         [HttpPost("register")]
@@ -53,20 +58,16 @@ namespace StudentRegistrationSystem.Controllers
 
         }
         //Getting the registered user details
-        [HttpGet("getUserDetails")]
-        public ActionResult<User> getUserDetails()
-        {
-            return Ok(user);
-        }
+       
         //Login the User
 
         [HttpPost("login")]
-        public ActionResult<string> Login(UserLoginDTO request)
+        public ActionResult<TokenDTO> Login(UserLoginDTO request)
         {
             user.email = request.email;
             user.passwordHash = request.passwordHash;
             Console.WriteLine("HI");
-
+            TokenDTO token = new TokenDTO();
             /*   if (superAdmin.email == user.email && superAdmin.passwordHash == user.passwordHash)*/
             if (superAdmin.email == request.email)
             {
@@ -75,22 +76,49 @@ namespace StudentRegistrationSystem.Controllers
                     user.userType = EnumRoles.Admin;
                     user.userID = 1;
                     string tokenSuperAdmin = createTokensAdmin(user);
-                    return Ok(tokenSuperAdmin);
+                    
+                    token.token = tokenSuperAdmin;
+                    token.userType = EnumRoles.Admin;
+                    return Ok(token);
                 }
                 if(request.passwordHash== null)
                 {
-                    return "your password is empty";
+                    token.token = "Your Password is empty";
+                    return token;
                 }
-                return "your Password is wrong";
+
+                token.token = "your Password is wrong";
+                return token;
             }
-            
-           
-            
-         //   string token = createTokensUser(user);
-          ///  return Ok(token);
-            return "Unauthorized acess";
+            else
+            {
+                // Assuming you have a method to check user credentials against the database
+                var normalUser = userRepository.GetUserFromDatabase(request.email, request.passwordHash);
+
+                if (normalUser != null)
+                {
+                    user.userType = EnumRoles.Student;
+                    user.userID = normalUser.userID; // Set the appropriate user ID from the database
+                    string tokenNormalUser = createTokensUser(user);
+                    token.token = tokenNormalUser;
+                    token.userType = EnumRoles.Student;
+                    return Ok(token);
+                }
+
+                token.token = "Invalid email or password for normal user";
+                return token ;
+            }
+
+
+
+            //   string token = createTokensUser(user);
+            ///  return Ok(token);
+            token.token = "Unauthorized acess";
+            return token;
 
         }
+
+       
 
         [HttpPost("admin/login")]
         public ActionResult<User> AdminLogin(UserDTO request)
@@ -158,6 +186,8 @@ namespace StudentRegistrationSystem.Controllers
 
             return jwt;
         }
+
+
 
     }
 }

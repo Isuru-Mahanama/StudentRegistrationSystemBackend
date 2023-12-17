@@ -25,5 +25,11 @@ namespace StudentRegistrationSystem.Repository.Implementation
 
             return user;
         }
+
+        public User GetUserFromDatabase(string email, string passwordHash)
+        {
+            var userFromDatabase = dbContext.users.FirstOrDefault(u => u.email == email && u.passwordHash == passwordHash);
+            return userFromDatabase;
+        }
     }
 }

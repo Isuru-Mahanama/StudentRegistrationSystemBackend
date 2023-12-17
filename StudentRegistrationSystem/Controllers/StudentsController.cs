@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.Identity.Client;
@@ -8,6 +9,7 @@ using StudentRegistrationSystem.Models.DTO;
 using StudentRegistrationSystem.Repository.Implementation;
 using StudentRegistrationSystem.Repository.Interface;
 using System.Reflection;
+using System.Security.Claims;
 
 namespace StudentRegistrationSystem.Controllers
 {
@@ -16,7 +18,8 @@ namespace StudentRegistrationSystem.Controllers
     public class StudentsController : ControllerBase
     {
         private readonly IStudentRepository studentRepository;
-        private readonly IUserRepository userRepository;    
+        private readonly IUserRepository userRepository;
+      
 
         public StudentsController(IStudentRepository studentRepository, IUserRepository userRepository)
         {
@@ -85,6 +88,38 @@ namespace StudentRegistrationSystem.Controllers
             return Ok(response);
         }
 
+        [HttpGet]
+        [Authorize (Roles ="User")]
+        [Route("GetStudentDetails")]
+        public Task<Student> getStudentDetails()
+        {
+          
+                string emails = HttpContext.User.FindFirst(ClaimTypes.Name)?.Value;
+
+                return studentRepository.findStudentDetails(emails); ;
+              
+           
+        }
+
+        [HttpGet]
+        [Route("GetStudentDetailswithoutAuthorize")]
+        public Claim getStudentDetailswithoutAuthorize()
+        {
+            // The user identity can be accessed through the User property
+            var userIdentity = User.Identity as ClaimsIdentity;
+            Console.WriteLine(userIdentity);
+            // Extract the user ID from the token
+            var userIdClaim = userIdentity?.FindFirst("UserId");
+            return userIdClaim;
+        }
+
+        [Authorize]
+        [HttpPost]
+        [Route("PostDetails")]
+        public string AddUser(User user)
+        {
+            return "UserAdded with username";
+        }
 
     }
 }

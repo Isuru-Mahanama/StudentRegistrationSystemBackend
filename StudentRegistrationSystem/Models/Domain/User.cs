@@ -2,6 +2,7 @@
 using StudentRegistrationSystem.Repository.Implementation;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace StudentRegistrationSystem.Models.Domain
 {
@@ -15,7 +16,9 @@ namespace StudentRegistrationSystem.Models.Domain
         [Key]
         public int userID { get; set; }
         public EnumRoles userType { get; set; }
+        [JsonIgnore]
         public Student Student { get; set; }
+      
 
 
         private static string GenerateRandomPassword()

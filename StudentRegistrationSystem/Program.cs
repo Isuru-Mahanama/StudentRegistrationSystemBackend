@@ -36,7 +36,7 @@ builder.Services.AddAuthentication().AddJwtBearer(options =>
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
                 builder.Configuration.GetSection("Authentication:Schemes:Bearer:SigningKeys:0:Value").Value!))
     };
-});
+    });
 
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
