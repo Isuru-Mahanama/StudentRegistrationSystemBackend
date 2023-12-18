@@ -26,7 +26,17 @@ namespace StudentRegistrationSystem.Data
                 .WithOne(u => u.Student)
                 .HasForeignKey<Student>(s => s.studentID);
 
+
+            modelBuilder.Entity<Address>()
+                .HasKey(a => a.studentID);
+
+            modelBuilder.Entity<Address>()     // Assuming userID is the shared primary key
+                .HasOne(a => a.user)
+                .WithOne(s => s.address)
+                .HasForeignKey<Address>(a => a.studentID);
             base.OnModelCreating(modelBuilder);
         }
+
+
     }
 }

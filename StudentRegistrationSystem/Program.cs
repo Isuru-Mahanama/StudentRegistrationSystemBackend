@@ -49,6 +49,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 //inject the service 
 builder.Services.AddScoped<IStudentRepository,StudentRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IAddressRepository, AddressRepository>();
+
 
 var app = builder.Build();
 

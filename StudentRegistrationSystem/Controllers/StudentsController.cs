@@ -19,12 +19,13 @@ namespace StudentRegistrationSystem.Controllers
     {
         private readonly IStudentRepository studentRepository;
         private readonly IUserRepository userRepository;
-      
+        private readonly IAddressRepository addressRepository;
 
-        public StudentsController(IStudentRepository studentRepository, IUserRepository userRepository)
+        public StudentsController(IStudentRepository studentRepository, IUserRepository userRepository, IAddressRepository addressRepository)
         {
             this.studentRepository = studentRepository;
             this.userRepository = userRepository;
+            this.addressRepository = addressRepository;
         }
 
 
@@ -38,7 +39,8 @@ namespace StudentRegistrationSystem.Controllers
             var createUser = new User
             {
                
-                userType = EnumRoles.Student
+                userType = EnumRoles.Student,
+               
             };
 
             User createdUser = await userRepository.CreateAsync(createUser);
@@ -65,11 +67,22 @@ namespace StudentRegistrationSystem.Controllers
                 academicProgramme = request.academicProgramme,
                 birthday = request.birthday ,
                 enrolledDate = request.enrolledDate,
-            };
+               
+        };
              createdUser.email = email;
+
+            var studentAddress = new Address
+            {
+                studentID=createdUser.userID,   
+                street = request.street,
+                district = request.district,
+                no = request.no
+            };
             await userRepository.CreateAsync(createUser);
             //abstracting the implemetation to the repository
             await studentRepository.CreateAsync(createStudent);
+
+            await addressRepository.CreateAsync(studentAddress);
 
             var response = new StudentDTO
             {

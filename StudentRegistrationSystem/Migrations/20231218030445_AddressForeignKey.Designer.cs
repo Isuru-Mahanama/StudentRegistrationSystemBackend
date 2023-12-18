@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StudentRegistrationSystem.Data;
 
@@ -11,9 +12,11 @@ using StudentRegistrationSystem.Data;
 namespace StudentRegistrationSystem.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231218030445_AddressForeignKey")]
+    partial class AddressForeignKey
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,8 +27,11 @@ namespace StudentRegistrationSystem.Migrations
 
             modelBuilder.Entity("StudentRegistrationSystem.Models.Domain.Address", b =>
                 {
-                    b.Property<int>("studentID")
-                        .HasColumnType("int");
+                    b.Property<long>("studentID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("studentID"));
 
                     b.Property<string>("district")
                         .IsRequired()
@@ -102,17 +108,6 @@ namespace StudentRegistrationSystem.Migrations
                     b.ToTable("users");
                 });
 
-            modelBuilder.Entity("StudentRegistrationSystem.Models.Domain.Address", b =>
-                {
-                    b.HasOne("StudentRegistrationSystem.Models.Domain.User", "user")
-                        .WithOne("address")
-                        .HasForeignKey("StudentRegistrationSystem.Models.Domain.Address", "studentID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("user");
-                });
-
             modelBuilder.Entity("StudentRegistrationSystem.Models.Domain.Student", b =>
                 {
                     b.HasOne("StudentRegistrationSystem.Models.Domain.User", "User")
@@ -127,9 +122,6 @@ namespace StudentRegistrationSystem.Migrations
             modelBuilder.Entity("StudentRegistrationSystem.Models.Domain.User", b =>
                 {
                     b.Navigation("Student")
-                        .IsRequired();
-
-                    b.Navigation("address")
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

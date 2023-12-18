@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace StudentRegistrationSystem.Models.Domain
 {
@@ -17,6 +18,8 @@ namespace StudentRegistrationSystem.Models.Domain
         public DateTime enrolledDate { get; set;}
 
         public User User { get; set; }
+       
+        
 
     }
 }

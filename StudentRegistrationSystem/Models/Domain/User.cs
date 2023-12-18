@@ -18,7 +18,9 @@ namespace StudentRegistrationSystem.Models.Domain
         public EnumRoles userType { get; set; }
         [JsonIgnore]
         public Student Student { get; set; }
-      
+        [JsonIgnore]
+        public Address address { get; set; }
+
 
 
         private static string GenerateRandomPassword()
