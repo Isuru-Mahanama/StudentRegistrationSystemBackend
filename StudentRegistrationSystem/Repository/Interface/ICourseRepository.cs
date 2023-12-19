@@ -6,5 +6,6 @@ namespace StudentRegistrationSystem.Repository.Interface
     {
         Task<Courses> CreateAsync(Courses courses);
         public List<Courses> GetAllDetails();
+        public List<string> GetAllCourseCodes();
     }
 }

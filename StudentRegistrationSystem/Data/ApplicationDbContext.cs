@@ -14,6 +14,7 @@ namespace StudentRegistrationSystem.Data
         public DbSet<Address> addresses { get; set; }
         public DbSet<User> users { get; set; }
         public DbSet<Courses> courses { get; set; }
+        public DbSet<Schedulecs> schedulecs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StudentRegistrationSystem.Data;
 
@@ -11,9 +12,11 @@ using StudentRegistrationSystem.Data;
 namespace StudentRegistrationSystem.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231218154318_Scedule table is created")]
+    partial class Sceduletableiscreated
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -72,35 +75,6 @@ namespace StudentRegistrationSystem.Migrations
                     b.HasKey("courseCode");
 
                     b.ToTable("courses");
-                });
-
-            modelBuilder.Entity("StudentRegistrationSystem.Models.Domain.Schedulecs", b =>
-                {
-                    b.Property<int>("scheduleID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("scheduleID"));
-
-                    b.Property<string>("courseCode")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("day")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("endTime")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("startTime")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("scheduleID");
-
-                    b.ToTable("schedulecs");
                 });
 
             modelBuilder.Entity("StudentRegistrationSystem.Models.Domain.Student", b =>

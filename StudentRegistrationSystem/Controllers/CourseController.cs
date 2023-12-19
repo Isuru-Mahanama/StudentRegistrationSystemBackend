@@ -40,6 +40,16 @@ namespace StudentRegistrationSystem.Controllers
 
         }
 
+        [HttpGet]
+        [Route("GetAllCourseCodes")]
+        public List<string> GetAllCoursCodes()
+        {
+
+            List<string> coureses = courseRepository.GetAllCourseCodes();
+            return coureses;
+
+        }
+
     }
 
   

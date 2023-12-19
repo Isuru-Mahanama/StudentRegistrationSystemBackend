@@ -27,6 +27,12 @@ namespace StudentRegistrationSystem.Repository.Implementation
             return dbContext.courses.ToList();
         }
 
+        public List<string> GetAllCourseCodes()
+        {
+            // Assuming dbContext is an instance of your DbContext
+            return dbContext.courses.Select(course => course.courseCode).ToList();
+        }
+
 
     }
 }
