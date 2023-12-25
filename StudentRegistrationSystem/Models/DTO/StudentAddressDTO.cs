@@ -1,13 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
+﻿using StudentRegistrationSystem.Models.Domain;
 
-namespace StudentRegistrationSystem.Models.Domain
+namespace StudentRegistrationSystem.Models.DTO
 {
-    public class Student
+    public class StudentAddressDTO
     {
-        [Key, ForeignKey("studentID")]
         public int studentID { get; set; }
+
         public string firstName { get; set; }
         public string lastName { get; set; }
         public int phoneNumber { get; set; }
@@ -15,9 +13,9 @@ namespace StudentRegistrationSystem.Models.Domain
         public string academicProgramme { get; set; }
         public DateTime birthday { get; set; }
         public DateTime enrolledDate { get; set; }
-        public User User { get; set; }
-       
-        
+        public string no { get; set; }
+        public string street { get; set; }
+        public string district { get; set; }
 
     }
 }

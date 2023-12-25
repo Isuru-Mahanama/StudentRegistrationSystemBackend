@@ -11,7 +11,7 @@ namespace StudentRegistrationSystem.Models.Domain
         public string courseCode { get; set; }
         public string startTime { get; set; }
         public string endTime { get; set; }
-
         public string day { get; set; }
+        public bool scheduleStatus { get; set; }
     }
 }

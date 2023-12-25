@@ -115,6 +115,16 @@ namespace StudentRegistrationSystem.Controllers
         }
 
         [HttpGet]
+        [Route("GetAllStudents")]
+        public List<Student> GetAllStudents()
+        {
+
+            List<Student> students = studentRepository.GetStudents();
+            return students;
+
+        }
+
+        [HttpGet]
         [Route("GetStudentDetailswithoutAuthorize")]
         public Claim getStudentDetailswithoutAuthorize()
         {
@@ -134,5 +144,41 @@ namespace StudentRegistrationSystem.Controllers
             return "UserAdded with username";
         }
 
+        [HttpPut]
+        [Route("admin/updateStudentDetails")]  // Corrected the spelling in the Route attribute
+        public async Task<Student> UpdatingStudentDetails(Models.DTO.StudentAddressDTO studentDTO)
+        {
+            Student student = new Student
+            {
+                studentID = studentDTO.studentID,
+                firstName = studentDTO.firstName,
+                lastName = studentDTO.lastName,
+                phoneNumber = studentDTO.phoneNumber,
+                gender =studentDTO .gender,
+                academicProgramme = studentDTO.academicProgramme,
+                birthday = studentDTO.birthday,
+                enrolledDate = studentDTO.enrolledDate,
+            };
+
+            Address address = new Address
+            {
+                studentID = studentDTO.studentID,
+                no = studentDTO.no,
+                street = studentDTO.street,
+                district = studentDTO.district
+            };
+            Student updatedStudent = await studentRepository.updateStudents(student);
+            Address address1 = await addressRepository.updateAddress(address); // Corrected the variable name
+            return updatedStudent;  // Return the updated course, not the input parameter
+        }
+
+        [HttpGet]
+        [Route("admin/getStudentByID")]  // Corrected the spelling in the Route attribute
+        public async Task<StudentAddressDTO> getStudentByID(int studentID)
+        {
+
+            StudentAddressDTO studentAddressDTO = await studentRepository.getStudentByID(studentID);  // Corrected the variable name
+            return studentAddressDTO;  // Return the updated course, not the input parameter
+        }
     }
 }

@@ -50,7 +50,25 @@ namespace StudentRegistrationSystem.Controllers
 
         }
 
+        [HttpPut]
+        [Route("admin/updateCourseDetails")]  // Corrected the spelling in the Route attribute
+        public async Task<Courses> UpdatingCourse([FromBody] Courses courses)
+        {
+            Courses updatedCourse = await courseRepository.updateCourse(courses);  // Corrected the variable name
+            return updatedCourse;  // Return the updated course, not the input parameter
+        }
+
+        [HttpGet]
+        [Route("admin/getCourseByCourseCode")]  // Corrected the spelling in the Route attribute
+        public async Task<Courses> getCourseByCourseCode( String coursCode)
+        {
+
+            Courses updatedCourse = await courseRepository.getCourseByCourseCode(coursCode);  // Corrected the variable name
+            return updatedCourse;  // Return the updated course, not the input parameter
+        }
+
+
     }
 
-  
+
 }
