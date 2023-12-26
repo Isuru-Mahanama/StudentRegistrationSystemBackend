@@ -20,6 +20,8 @@ namespace StudentRegistrationSystem.Models.Domain
         public Student Student { get; set; }
         [JsonIgnore]
         public Address address { get; set; }
+        public bool userStatus { get; set; }
+        public Enrollement enrollement { get; set; }
 
 
 

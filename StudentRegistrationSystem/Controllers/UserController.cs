@@ -53,7 +53,6 @@ namespace StudentRegistrationSystem.Controllers
 
             user.email = request.email;
             user.passwordHash = passwordHash;
-            
             return Ok(user);
 
         }
@@ -185,6 +184,15 @@ namespace StudentRegistrationSystem.Controllers
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);
 
             return jwt;
+        }
+
+        [HttpDelete]
+        [Route("admin/getStudentDelete")]  // Corrected the spelling in the Route attribute
+        public async Task<User> deleteStudent(int studentID)
+        {
+
+            User user = await userRepository.deleteStudent(studentID);  // Corrected the variable name
+            return user;  // Return the updated course, not the input parameter
         }
 
 

@@ -44,7 +44,10 @@ namespace StudentRegistrationSystem.Repository.Implementation
 
         public List<Student> GetStudents()
         {
-            return dbContext.students.ToList();
+            return dbContext.students
+         .Where(s => s.User.userStatus == true)
+         .ToList();
+
         }
 
         public async Task<Student> updateStudents(Student student)
@@ -88,5 +91,7 @@ namespace StudentRegistrationSystem.Repository.Implementation
     };
             return studentwithAddress;
         }
+
+       
     }
 }

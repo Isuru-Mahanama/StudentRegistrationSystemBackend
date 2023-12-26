@@ -40,6 +40,7 @@ namespace StudentRegistrationSystem.Controllers
             {
                
                 userType = EnumRoles.Student,
+                userStatus = true
                
             };
 
@@ -180,5 +181,7 @@ namespace StudentRegistrationSystem.Controllers
             StudentAddressDTO studentAddressDTO = await studentRepository.getStudentByID(studentID);  // Corrected the variable name
             return studentAddressDTO;  // Return the updated course, not the input parameter
         }
+
+      
     }
 }

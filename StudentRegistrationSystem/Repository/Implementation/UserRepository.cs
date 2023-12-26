@@ -1,4 +1,5 @@
-﻿using StudentRegistrationSystem.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using StudentRegistrationSystem.Data;
 using StudentRegistrationSystem.Models.Domain;
 using StudentRegistrationSystem.Repository.Interface;
 
@@ -29,6 +30,16 @@ namespace StudentRegistrationSystem.Repository.Implementation
         public User GetUserFromDatabase(string email, string passwordHash)
         {
             var userFromDatabase = dbContext.users.FirstOrDefault(u => u.email == email && u.passwordHash == passwordHash);
+            return userFromDatabase;
+        }
+
+        public async Task<User> deleteStudent(int studentID)
+        {
+            var userFromDatabase = await dbContext.users.FirstOrDefaultAsync(u => u.userID == studentID);
+            // If the course is not found, you might want to handle this scenario accordingly
+            userFromDatabase.userStatus = false;
+
+            await dbContext.SaveChangesAsync();
             return userFromDatabase;
         }
     }

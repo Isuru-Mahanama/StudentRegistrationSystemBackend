@@ -9,6 +9,6 @@ namespace StudentRegistrationSystem.Repository.Interface
         public List<string> GetAllCourseCodes();
         Task<Courses> updateCourse(Courses courses);
         Task<Courses> getCourseByCourseCode(String courseCode);
-       
+        Task<Courses> deleteCourse(string courseCode);
     }
 }

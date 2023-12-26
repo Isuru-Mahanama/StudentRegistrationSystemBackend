@@ -15,6 +15,7 @@ namespace StudentRegistrationSystem.Data
         public DbSet<User> users { get; set; }
         public DbSet<Courses> courses { get; set; }
         public DbSet<Schedulecs> schedulecs { get; set; }
+        public DbSet<Enrollement> enrollements { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -37,6 +38,25 @@ namespace StudentRegistrationSystem.Data
                 .WithOne(s => s.address)
                 .HasForeignKey<Address>(a => a.studentID);
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Enrollement>()
+                .HasKey(e => new { e.userID, e.coursCode });
+
+            modelBuilder.Entity<Enrollement>()     
+                .HasOne(e => e.user)
+                .WithOne(u => u.enrollement)
+                .HasForeignKey<Enrollement>(e => e.userID);
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Courses>()
+               .HasKey(c => c.courseCode);
+
+            modelBuilder.Entity<Enrollement>()     
+                .HasOne(e => e.courses)
+                .WithOne(c => c.enrollement)
+                .HasForeignKey<Enrollement>(e => e.coursCode);
+            base.OnModelCreating(modelBuilder);
+
         }
 
 

@@ -24,13 +24,17 @@ namespace StudentRegistrationSystem.Repository.Implementation
 
         public List<Courses> GetAllDetails()
         {
-            return dbContext.courses.ToList();
+
+            List<Courses> courses =  dbContext.courses.ToList();
+            List<Courses> filteredCourses = courses.Where(c => c.courseStatus == true).ToList();
+            return filteredCourses;
         }
 
         public List<string> GetAllCourseCodes()
         {
             // Assuming dbContext is an instance of your DbContext
             return dbContext.courses.Select(course => course.courseCode).ToList();
+
         }
 
         public async Task<Courses> updateCourse( Courses courses)
@@ -59,6 +63,14 @@ namespace StudentRegistrationSystem.Repository.Implementation
             // If the course is not found, you might want to handle this scenario accordingly
             return courseFromDatabase;
         }
-        
+        public async Task<Courses> deleteCourse(string courseCode)
+        {
+            var courseFromDatabase = await dbContext.courses.FirstOrDefaultAsync(u => u.courseCode == courseCode);
+            // If the course is not found, you might want to handle this scenario accordingly
+            courseFromDatabase.courseStatus = false;
+
+            await dbContext.SaveChangesAsync();
+            return courseFromDatabase;
+        }
     }
 }

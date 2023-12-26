@@ -17,7 +17,9 @@ namespace StudentRegistrationSystem.Models.Domain
         public DateTime enrolledDate { get; set; }
         public User User { get; set; }
        
-        
+       
+
+
 
     }
 }

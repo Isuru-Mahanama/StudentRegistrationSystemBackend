@@ -31,7 +31,11 @@ namespace StudentRegistrationSystem.Repository.Implementation
 
         public List<Schedulecs> GetSchedulecs()
         {
-            return applicationDbContext.schedulecs.ToList();
+            List<Schedulecs> schedulecs = applicationDbContext.schedulecs.ToList();
+            // Filter the list based on the Status property
+            List<Schedulecs> filteredSchedulecs = schedulecs.Where(s => s.scheduleStatus == true).ToList();
+
+            return filteredSchedulecs;
         }
         
         public async Task<Schedulecs> deleteSchedule(int scheduleID)

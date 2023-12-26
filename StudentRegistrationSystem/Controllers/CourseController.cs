@@ -25,7 +25,7 @@ namespace StudentRegistrationSystem.Controllers
             {
                 return BadRequest(ModelState);
             }
-
+            courses.courseStatus = true;
             var course = await courseRepository.CreateAsync(courses);
             return Ok(course);
         }
@@ -65,6 +65,15 @@ namespace StudentRegistrationSystem.Controllers
 
             Courses updatedCourse = await courseRepository.getCourseByCourseCode(coursCode);  // Corrected the variable name
             return updatedCourse;  // Return the updated course, not the input parameter
+        }
+
+        [HttpDelete]
+        [Route("admin/getCourseDelete")]  // Corrected the spelling in the Route attribute
+        public async Task<Courses> deleteCourses(string courseCode)
+        {
+
+            Courses courses = await courseRepository.deleteCourse(courseCode);  // Corrected the variable name
+            return courses;  // Return the updated course, not the input parameter
         }
 
 

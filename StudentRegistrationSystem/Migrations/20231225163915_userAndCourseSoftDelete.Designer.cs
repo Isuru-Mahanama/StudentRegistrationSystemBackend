@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StudentRegistrationSystem.Data;
 
@@ -11,9 +12,11 @@ using StudentRegistrationSystem.Data;
 namespace StudentRegistrationSystem.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231225163915_userAndCourseSoftDelete")]
+    partial class userAndCourseSoftDelete
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -75,28 +78,6 @@ namespace StudentRegistrationSystem.Migrations
                     b.HasKey("courseCode");
 
                     b.ToTable("courses");
-                });
-
-            modelBuilder.Entity("StudentRegistrationSystem.Models.Domain.Enrollement", b =>
-                {
-                    b.Property<int>("userID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("coursCode")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<bool>("enrollementStatus")
-                        .HasColumnType("bit");
-
-                    b.HasKey("userID", "coursCode");
-
-                    b.HasIndex("coursCode")
-                        .IsUnique();
-
-                    b.HasIndex("userID")
-                        .IsUnique();
-
-                    b.ToTable("enrollements");
                 });
 
             modelBuilder.Entity("StudentRegistrationSystem.Models.Domain.Schedulecs", b =>
@@ -203,25 +184,6 @@ namespace StudentRegistrationSystem.Migrations
                     b.Navigation("user");
                 });
 
-            modelBuilder.Entity("StudentRegistrationSystem.Models.Domain.Enrollement", b =>
-                {
-                    b.HasOne("StudentRegistrationSystem.Models.Domain.Courses", "courses")
-                        .WithOne("enrollement")
-                        .HasForeignKey("StudentRegistrationSystem.Models.Domain.Enrollement", "coursCode")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("StudentRegistrationSystem.Models.Domain.User", "user")
-                        .WithOne("enrollement")
-                        .HasForeignKey("StudentRegistrationSystem.Models.Domain.Enrollement", "userID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("courses");
-
-                    b.Navigation("user");
-                });
-
             modelBuilder.Entity("StudentRegistrationSystem.Models.Domain.Student", b =>
                 {
                     b.HasOne("StudentRegistrationSystem.Models.Domain.User", "User")
@@ -233,21 +195,12 @@ namespace StudentRegistrationSystem.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("StudentRegistrationSystem.Models.Domain.Courses", b =>
-                {
-                    b.Navigation("enrollement")
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("StudentRegistrationSystem.Models.Domain.User", b =>
                 {
                     b.Navigation("Student")
                         .IsRequired();
 
                     b.Navigation("address")
-                        .IsRequired();
-
-                    b.Navigation("enrollement")
                         .IsRequired();
                 });
 #pragma warning restore 612, 618
