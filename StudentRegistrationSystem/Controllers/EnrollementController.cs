@@ -16,9 +16,13 @@ namespace StudentRegistrationSystem.Controllers
         public EnrollementController(IEnrollementRepository enrollementRepository) {
             this.enrollementRepository = enrollementRepository;
         }
-        [HttpPost("user/enrollement")]
+        [HttpPost]
+        [Route("user/enrollement")]
         public async Task<ActionResult<Enrollement>> AddingEnrolledCourses([FromBody] EnrolledDetailsDTO enrolledDetailsDTO )
         {
+            
+            Console.WriteLine(enrolledDetailsDTO);
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);

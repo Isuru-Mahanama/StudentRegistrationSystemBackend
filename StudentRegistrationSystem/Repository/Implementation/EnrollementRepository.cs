@@ -16,10 +16,18 @@ namespace StudentRegistrationSystem.Repository.Implementation
         }
         public async Task<Enrollement> CreateAsync(Enrollement enrollement)
         {
-            //Domain model to DTO
-
-            await dbContext.enrollements.AddAsync(enrollement);
-            await dbContext.SaveChangesAsync();
+            Enrollement filteredEnroll = dbContext.enrollements.
+                                         FirstOrDefault(e => e.coursCode == enrollement.coursCode && e.userID == enrollement.userID);
+            if (filteredEnroll == null)
+            {
+                await dbContext.enrollements.AddAsync(enrollement);
+                await dbContext.SaveChangesAsync();
+            }
+            if (filteredEnroll != null)
+            {
+                dbContext.Entry(filteredEnroll).CurrentValues.SetValues(enrollement);
+                await dbContext.SaveChangesAsync();
+            }
 
             return enrollement;
         }

@@ -19,14 +19,23 @@ namespace StudentRegistrationSystem.Controllers
             this.courseRepository = courseRepository;
         }
         [HttpPost("admin/course")]
-        public async Task<ActionResult<Courses>> AddingCourse([FromBody] Courses courses)
+        public async Task<ActionResult<Courses>> AddingCourse([FromBody] CoursesDTO courses)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            courses.courseStatus = true;
-            var course = await courseRepository.CreateAsync(courses);
+            var cour = new Courses { 
+                courseCode = courses.courseCode,
+                courseName = courses.courseName,
+                category = courses.category,
+                level = courses.level,
+                semester =  courses.semester,
+                startDate = courses.startDate,
+                endDate = courses.endDate,
+                courseStatus = true
+        };
+            var course = await courseRepository.CreateAsync(cour);
             return Ok(course);
         }
 

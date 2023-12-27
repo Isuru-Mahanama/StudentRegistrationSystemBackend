@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace StudentRegistrationSystem.Models.Domain
 {
@@ -11,7 +12,9 @@ namespace StudentRegistrationSystem.Models.Domain
         [ForeignKey("userID")]
         public int userID { get; set; }
         public bool enrollementStatus { get; set; }
+        [JsonIgnore]
         public User user { get; set; }
+        [JsonIgnore]
         public Courses courses { get; set; }
 
     }

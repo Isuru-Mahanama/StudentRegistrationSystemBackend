@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace StudentRegistrationSystem.Models.Domain
 {
@@ -14,6 +15,7 @@ namespace StudentRegistrationSystem.Models.Domain
         public  DateTime startDate { get; set; }
         public DateTime endDate { get; set; }
         public bool courseStatus { get; set; }
+        [JsonIgnore]
         public Enrollement enrollement { get; set; }
 
     }

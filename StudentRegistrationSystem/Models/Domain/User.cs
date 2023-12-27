@@ -21,10 +21,8 @@ namespace StudentRegistrationSystem.Models.Domain
         [JsonIgnore]
         public Address address { get; set; }
         public bool userStatus { get; set; }
+        [JsonIgnore]
         public Enrollement enrollement { get; set; }
-
-
-
         private static string GenerateRandomPassword()
         {
             const string allowedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
