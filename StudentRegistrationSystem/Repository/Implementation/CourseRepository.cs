@@ -1,8 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using StudentRegistrationSystem.Data;
 using StudentRegistrationSystem.Models.Domain;
+using StudentRegistrationSystem.Models.DTO;
 using StudentRegistrationSystem.Repository.Interface;
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace StudentRegistrationSystem.Repository.Implementation
 {
@@ -37,12 +39,22 @@ namespace StudentRegistrationSystem.Repository.Implementation
 
         }
 
-        public async Task<Courses> updateCourse( Courses courses)
+        public async Task<Courses> updateCourse( CoursesDTO coursesDTO)
         {
-            string courseCode = courses.courseCode;
+            string courseCode = coursesDTO.courseCode;
             var courseFromDatabase = await dbContext.courses.FirstOrDefaultAsync(u => u.courseCode == courseCode);
             if (courseFromDatabase != null)
             {
+                Courses courses = new Courses {
+                    courseName = coursesDTO.courseName,
+                    courseCode = coursesDTO.courseCode,
+                    semester = coursesDTO.semester,
+                    level = coursesDTO.level,
+                    category = coursesDTO.category,
+                    startDate = coursesDTO.startDate,
+                    endDate = coursesDTO.endDate,
+                    courseStatus = coursesDTO.courseStatus
+                };
                 // Update the properties of the course entity using the DTO
                 dbContext.Entry(courseFromDatabase).CurrentValues.SetValues(courses);
 

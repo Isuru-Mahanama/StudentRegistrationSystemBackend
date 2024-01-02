@@ -16,7 +16,11 @@ namespace StudentRegistrationSystem.Models.Domain
         public DateTime endDate { get; set; }
         public bool courseStatus { get; set; }
         [JsonIgnore]
-        public Enrollement enrollement { get; set; }
+        public ICollection<Enrollement> enrollement { get; set; }
+        [JsonIgnore]
+        public ICollection<Schedulecs> schedulecs { get; set; }
+        [JsonIgnore]
+        public ICollection<User> users { get; set; }
 
     }
 }

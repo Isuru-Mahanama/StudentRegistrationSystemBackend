@@ -27,6 +27,7 @@ namespace StudentRegistrationSystem.Controllers
             return Ok(course);
         }
 
+
         [HttpGet]
         [Route("GetAllSchedules")]
         public List<Schedulecs> GetAllCourses()
@@ -56,7 +57,7 @@ namespace StudentRegistrationSystem.Controllers
 
         [HttpPut]
         [Route("admin/updateSceduleDetails")]  // Corrected the spelling in the Route attribute
-        public async Task<Schedulecs> UpdatingSchedules([FromBody] Schedulecs schedulecs)
+        public async Task<Schedulecs> UpdatingSchedules([FromBody] ScheduleDTO schedulecs)
         {
             Schedulecs updatedSchedules = await scheduleRepository.updateSchedules(schedulecs);  // Corrected the variable name
             return updatedSchedules;  // Return the updated course, not the input parameter

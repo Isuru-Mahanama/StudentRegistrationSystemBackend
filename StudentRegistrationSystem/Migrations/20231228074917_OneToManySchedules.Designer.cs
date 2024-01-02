@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StudentRegistrationSystem.Data;
 
@@ -11,9 +12,11 @@ using StudentRegistrationSystem.Data;
 namespace StudentRegistrationSystem.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231228074917_OneToManySchedules")]
+    partial class OneToManySchedules
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,21 +24,6 @@ namespace StudentRegistrationSystem.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("CoursesUser", b =>
-                {
-                    b.Property<string>("coursescourseCode")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("usersuserID")
-                        .HasColumnType("int");
-
-                    b.HasKey("coursescourseCode", "usersuserID");
-
-                    b.HasIndex("usersuserID");
-
-                    b.ToTable("CoursesUser");
-                });
 
             modelBuilder.Entity("StudentRegistrationSystem.Models.Domain.Address", b =>
                 {
@@ -105,7 +93,11 @@ namespace StudentRegistrationSystem.Migrations
 
                     b.HasKey("userID", "coursCode");
 
-                    b.HasIndex("coursCode");
+                    b.HasIndex("coursCode")
+                        .IsUnique();
+
+                    b.HasIndex("userID")
+                        .IsUnique();
 
                     b.ToTable("enrollements");
                 });
@@ -205,21 +197,6 @@ namespace StudentRegistrationSystem.Migrations
                     b.ToTable("users");
                 });
 
-            modelBuilder.Entity("CoursesUser", b =>
-                {
-                    b.HasOne("StudentRegistrationSystem.Models.Domain.Courses", null)
-                        .WithMany()
-                        .HasForeignKey("coursescourseCode")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("StudentRegistrationSystem.Models.Domain.User", null)
-                        .WithMany()
-                        .HasForeignKey("usersuserID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("StudentRegistrationSystem.Models.Domain.Address", b =>
                 {
                     b.HasOne("StudentRegistrationSystem.Models.Domain.User", "user")
@@ -234,14 +211,14 @@ namespace StudentRegistrationSystem.Migrations
             modelBuilder.Entity("StudentRegistrationSystem.Models.Domain.Enrollement", b =>
                 {
                     b.HasOne("StudentRegistrationSystem.Models.Domain.Courses", "courses")
-                        .WithMany("enrollement")
-                        .HasForeignKey("coursCode")
+                        .WithOne("enrollement")
+                        .HasForeignKey("StudentRegistrationSystem.Models.Domain.Enrollement", "coursCode")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("StudentRegistrationSystem.Models.Domain.User", "user")
-                        .WithMany("enrollement")
-                        .HasForeignKey("userID")
+                        .WithOne("enrollement")
+                        .HasForeignKey("StudentRegistrationSystem.Models.Domain.Enrollement", "userID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -274,7 +251,8 @@ namespace StudentRegistrationSystem.Migrations
 
             modelBuilder.Entity("StudentRegistrationSystem.Models.Domain.Courses", b =>
                 {
-                    b.Navigation("enrollement");
+                    b.Navigation("enrollement")
+                        .IsRequired();
 
                     b.Navigation("schedulecs");
                 });
@@ -287,7 +265,8 @@ namespace StudentRegistrationSystem.Migrations
                     b.Navigation("address")
                         .IsRequired();
 
-                    b.Navigation("enrollement");
+                    b.Navigation("enrollement")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

@@ -13,5 +13,7 @@ namespace StudentRegistrationSystem.Models.DTO
         public string category { get; set; }
         public DateTime startDate { get; set; }
         public DateTime endDate { get; set; }
+        public bool courseStatus { get; set; }
+
     }
 }

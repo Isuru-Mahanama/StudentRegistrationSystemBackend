@@ -85,6 +85,11 @@ namespace StudentRegistrationSystem.Controllers
                     token.token = "Your Password is empty";
                     return token;
                 }
+                if (request.email == null)
+                {
+                    token.token = "Your email is empty";
+                    return token;
+                }
 
                 token.token = "your Password is wrong";
                 return token;
@@ -104,7 +109,7 @@ namespace StudentRegistrationSystem.Controllers
                     return Ok(token);
                 }
 
-                token.token = "Invalid email or password for normal user";
+                token.token = "";
                 return token ;
             }
 

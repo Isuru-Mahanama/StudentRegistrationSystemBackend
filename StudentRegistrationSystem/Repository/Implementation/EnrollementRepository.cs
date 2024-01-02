@@ -54,5 +54,15 @@ namespace StudentRegistrationSystem.Repository.Implementation
 
            
         }
+
+        List<string> IEnrollementRepository.findEnrolledCoursesByID(int studentID)
+        {
+            List<string> courseCodeList = dbContext.enrollements
+            .Where(e => e.userID == studentID && e.enrollementStatus==true)
+            .Select(e => e.coursCode)
+            .ToList();
+
+            return courseCodeList;
+        }
     }
 }

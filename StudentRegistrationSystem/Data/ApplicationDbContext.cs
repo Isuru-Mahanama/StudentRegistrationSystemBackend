@@ -23,6 +23,8 @@ namespace StudentRegistrationSystem.Data
                 .HasKey(u => u.userID);
             modelBuilder.Entity<Student>()
                 .HasKey(s => s.studentID);
+            modelBuilder.Entity<Schedulecs>()
+                .HasKey(h => h.scheduleID);
 
             modelBuilder.Entity<Student>()     // Assuming userID is the shared primary key
                 .HasOne(s => s.User)
@@ -44,8 +46,8 @@ namespace StudentRegistrationSystem.Data
 
             modelBuilder.Entity<Enrollement>()     
                 .HasOne(e => e.user)
-                .WithOne(u => u.enrollement)
-                .HasForeignKey<Enrollement>(e => e.userID);
+                .WithMany(u => u.enrollement)
+                .HasForeignKey(e => e.userID);
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Courses>()
@@ -53,9 +55,19 @@ namespace StudentRegistrationSystem.Data
 
             modelBuilder.Entity<Enrollement>()     
                 .HasOne(e => e.courses)
-                .WithOne(c => c.enrollement)
-                .HasForeignKey<Enrollement>(e => e.coursCode);
+                .WithMany(c => c.enrollement)
+                .HasForeignKey(e => e.coursCode);
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Schedulecs>()
+                .HasOne(h => h.course)
+                .WithMany(c => c.schedulecs)
+                .HasForeignKey(s => s.courseCode);
+
+            
+
+
+
 
         }
 

@@ -61,9 +61,9 @@ namespace StudentRegistrationSystem.Controllers
 
         [HttpPut]
         [Route("admin/updateCourseDetails")]  // Corrected the spelling in the Route attribute
-        public async Task<Courses> UpdatingCourse([FromBody] Courses courses)
+        public async Task<Courses> UpdatingCourse([FromBody] CoursesDTO coursesDTO)
         {
-            Courses updatedCourse = await courseRepository.updateCourse(courses);  // Corrected the variable name
+            Courses updatedCourse = await courseRepository.updateCourse(coursesDTO);  // Corrected the variable name
             return updatedCourse;  // Return the updated course, not the input parameter
         }
 

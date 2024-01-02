@@ -1,4 +1,5 @@
 ﻿using StudentRegistrationSystem.Models.Domain;
+using StudentRegistrationSystem.Models.DTO;
 
 namespace StudentRegistrationSystem.Repository.Interface
 {
@@ -7,7 +8,8 @@ namespace StudentRegistrationSystem.Repository.Interface
         Task<Courses> CreateAsync(Courses courses);
         public List<Courses> GetAllDetails();
         public List<string> GetAllCourseCodes();
-        Task<Courses> updateCourse(Courses courses);
+        Task<Courses> updateCourse(CoursesDTO coursesDTO);
+
         Task<Courses> getCourseByCourseCode(String courseCode);
         Task<Courses> deleteCourse(string courseCode);
     }

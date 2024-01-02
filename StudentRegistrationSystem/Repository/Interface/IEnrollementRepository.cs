@@ -7,5 +7,6 @@ namespace StudentRegistrationSystem.Repository.Interface
     {
         Task<Enrollement> CreateAsync(Enrollement enrollement);
         Task<EnrolledDetailsDTO> unEnroll(EnrolledDetailsDTO enrolledDetailsDTO);
+        List<string> findEnrolledCoursesByID(int studentID);
     }
 }

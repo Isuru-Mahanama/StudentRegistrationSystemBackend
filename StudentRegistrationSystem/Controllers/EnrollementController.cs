@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using StudentRegistrationSystem.Models.Domain;
 using StudentRegistrationSystem.Models.DTO;
 using StudentRegistrationSystem.Repository.Implementation;
 using StudentRegistrationSystem.Repository.Interface;
+using System.Security.Claims;
 
 namespace StudentRegistrationSystem.Controllers
 {
@@ -12,9 +14,15 @@ namespace StudentRegistrationSystem.Controllers
     public class EnrollementController : ControllerBase
     {
         private readonly IEnrollementRepository enrollementRepository;
+        private readonly IStudentRepository studentRepository;
+        private readonly IScheduleRepository scheduleRepository;
 
-        public EnrollementController(IEnrollementRepository enrollementRepository) {
+        public EnrollementController(IEnrollementRepository enrollementRepository,
+                                     IStudentRepository studentRepository,
+                                     IScheduleRepository scheduleRepository) {
             this.enrollementRepository = enrollementRepository;
+            this.studentRepository = studentRepository;
+            this.scheduleRepository = scheduleRepository;
         }
         [HttpPost]
         [Route("user/enrollement")]
@@ -47,6 +55,21 @@ namespace StudentRegistrationSystem.Controllers
             
             var enrolled = await enrollementRepository.unEnroll(enrolledDetailsDTO);
             return Ok(enrolled);
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "User")]
+        [Route("GetTimeTableDetails")]
+        public async Task<List<Schedulecs>> GetTimeTableDetails()
+        {
+            string email = HttpContext.User.FindFirst(ClaimTypes.Name)?.Value;
+
+            Task<Student> studentTask = studentRepository.findStudentDetails(email);
+            Student student = await studentTask;
+
+            List<string> courseCodeList = enrollementRepository.findEnrolledCoursesByID(student.studentID);
+            List<Schedulecs> schedulecs = scheduleRepository.getScheduleByCourseCode(courseCodeList);
+            return schedulecs;
         }
 
     }

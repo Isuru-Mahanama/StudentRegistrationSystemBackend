@@ -1,7 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Cryptography.KeyDerivation;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using StudentRegistrationSystem.Models.DTO;
 using StudentRegistrationSystem.Repository.Implementation;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Security.Cryptography;
 using System.Text.Json.Serialization;
 
 namespace StudentRegistrationSystem.Models.Domain
@@ -22,7 +26,10 @@ namespace StudentRegistrationSystem.Models.Domain
         public Address address { get; set; }
         public bool userStatus { get; set; }
         [JsonIgnore]
-        public Enrollement enrollement { get; set; }
+        public ICollection<Enrollement> enrollement { get; set; }
+
+        [JsonIgnore]
+        public ICollection<Courses> courses { get; set; }   
         private static string GenerateRandomPassword()
         {
             const string allowedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -34,9 +41,13 @@ namespace StudentRegistrationSystem.Models.Domain
             {
                 password[i] = allowedChars[random.Next(allowedChars.Length)];
             }
-
             return new string(password);
+           // string passwordHash = BCrypt.Net.BCrypt.HashPassword(passwords);
+           // return  passwordHash;
+           // return new string(password);
         }
-       
+
     }
+
 }
+

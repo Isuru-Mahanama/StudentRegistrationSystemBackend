@@ -109,10 +109,8 @@ namespace StudentRegistrationSystem.Controllers
         {
           
                 string emails = HttpContext.User.FindFirst(ClaimTypes.Name)?.Value;
-
                 return studentRepository.findStudentDetails(emails); ;
-              
-           
+         
         }
 
         [HttpGet]

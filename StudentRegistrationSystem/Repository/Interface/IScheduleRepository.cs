@@ -9,7 +9,8 @@ namespace StudentRegistrationSystem.Repository.Interface
         public List<Schedulecs> GetSchedulecs();
 
         public Task<Schedulecs> getScheduleByID(int scheduleID);
-        Task<Schedulecs> updateSchedules(Schedulecs schedulecs);
+        Task<Schedulecs> updateSchedules(ScheduleDTO schedulecs);
         Task<Schedulecs> deleteSchedule(int scheduleID);
+        List<Schedulecs> getScheduleByCourseCode(List<string> courseCodeList);
     }
 }

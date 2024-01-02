@@ -1,8 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using StudentRegistrationSystem.Data;
 using StudentRegistrationSystem.Models.Domain;
 using StudentRegistrationSystem.Models.DTO;
 using StudentRegistrationSystem.Repository.Interface;
+using AutoMapper;
 
 namespace StudentRegistrationSystem.Repository.Implementation
 {
@@ -56,23 +58,38 @@ namespace StudentRegistrationSystem.Repository.Implementation
         }
 
 
-        public async Task<Schedulecs> updateSchedules(Schedulecs schedulecs)
+        public async Task<Schedulecs> updateSchedules(ScheduleDTO schedulecs)
         {
             int scheduleID = schedulecs.scheduleID;
             var scheduleFromDatabase = await applicationDbContext.schedulecs.FirstOrDefaultAsync(u => u.scheduleID == scheduleID);
             if (scheduleFromDatabase != null)
             {
+                Schedulecs sch = new Schedulecs();
+                sch.scheduleID = scheduleID;
+                sch.scheduleStatus = schedulecs.scheduleStatus;
+                sch.courseCode = schedulecs.courseCode;
+                sch.startTime = schedulecs.startTime;
+                sch.endTime = schedulecs.endTime;
+                sch.day = schedulecs.day;
                 // Update the properties of the course entity using the DTO
-                applicationDbContext.Entry(scheduleFromDatabase).CurrentValues.SetValues(schedulecs);
+                applicationDbContext.Entry(scheduleFromDatabase).CurrentValues.SetValues(sch);
 
                 // Save the changes to the database
                 await applicationDbContext.SaveChangesAsync();
 
-                return schedulecs; // Optional: You can return the updated course if needed
+                return sch; // Optional: You can return the updated course if needed
             }
 
             // If the course is not found, you might want to handle this scenario accordingly
             return null;
+        }
+
+        List<Schedulecs> IScheduleRepository.getScheduleByCourseCode(List<string> courseCodeList)
+        {
+            List<Schedulecs> scheduleList = applicationDbContext.schedulecs
+            .Where(e => courseCodeList.Contains(e.courseCode) && e.scheduleStatus == true)
+            .ToList();
+            return scheduleList;
         }
     }
 }
