@@ -13,6 +13,8 @@ namespace StudentRegistrationSystem.Repository.Implementation
     {
         private readonly EmailSettings emailSettings;
 
+        
+
         public EmailService(IOptions<EmailSettings> options)
         {
             this.emailSettings = options.Value;

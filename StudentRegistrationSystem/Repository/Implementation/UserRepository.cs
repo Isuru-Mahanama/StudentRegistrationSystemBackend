@@ -29,8 +29,12 @@ namespace StudentRegistrationSystem.Repository.Implementation
 
         public User GetUserFromDatabase(string email, string passwordHash)
         {
-            var userFromDatabase = dbContext.users.FirstOrDefault(u => u.email == email && u.passwordHash == passwordHash);
-            return userFromDatabase;
+            var userFromDatabase = dbContext.users.FirstOrDefault(u => u.email == email );
+            bool passwordMatches = BCrypt.Net.BCrypt.Verify(passwordHash, userFromDatabase.passwordHash);
+            if (passwordMatches) {
+                return userFromDatabase;
+            }
+            return null;
         }
 
         public async Task<User> deleteStudent(int studentID)

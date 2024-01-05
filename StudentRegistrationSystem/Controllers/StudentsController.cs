@@ -44,7 +44,7 @@ namespace StudentRegistrationSystem.Controllers
             Console.WriteLine(request);
 
             //creating new Student
-            var createUser = new User
+            var createUser = new User(emailService)
             {
                
                 userType = EnumRoles.Student,
@@ -187,7 +187,7 @@ namespace StudentRegistrationSystem.Controllers
             StudentAddressDTO studentAddressDTO = await studentRepository.getStudentByID(studentID);  // Corrected the variable name
             return studentAddressDTO;  // Return the updated course, not the input parameter
         }
-        [HttpPost]
+       /* [HttpPost]
         [Route("sendEmail")]
         public async Task<IActionResult> sendMail()
         {
@@ -206,7 +206,7 @@ namespace StudentRegistrationSystem.Controllers
                 throw;
             }
 
-        }
+        }*/
 
 
 

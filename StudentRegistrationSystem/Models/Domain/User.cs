@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using StudentRegistrationSystem.Controllers;
@@ -16,8 +17,10 @@ namespace StudentRegistrationSystem.Models.Domain
 {
     public class User
     {
+        private readonly IEmailService emailService;
+
         public string? email { get; set; } 
-        public string passwordHash{ get; set; } = GenerateRandomPassword();
+        public string passwordHash{ get; set; } 
         
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
@@ -32,7 +35,17 @@ namespace StudentRegistrationSystem.Models.Domain
         public ICollection<Enrollement> enrollement { get; set; }
         [JsonIgnore]
         public ICollection<Courses> courses { get; set; }
-        private static string GenerateRandomPassword()
+        public User(IEmailService emailService)
+        {
+            this.emailService = emailService;
+            passwordHash = GenerateRandomPassword();
+        }
+
+        public User()
+        {
+        }
+
+        private  string GenerateRandomPassword()
         {
             const string allowedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
             Random random = new Random();
@@ -44,16 +57,37 @@ namespace StudentRegistrationSystem.Models.Domain
                 password[i] = allowedChars[random.Next(allowedChars.Length)];
             }
             var createdPassword = new string(password);
-            
-           // studentsController.sendMail();
-            return createdPassword;
+            sendMail(createdPassword).Wait();
+            string passwordHash = BCrypt.Net.BCrypt.HashPassword(createdPassword);
+
+            // studentsController.sendMail();
+            return passwordHash;
            
-           // string passwordHash = BCrypt.Net.BCrypt.HashPassword(passwords);
+            
            // return  passwordHash;
            // return new string(password);
         }
 
-     
+
+        public async  Task<IActionResult> sendMail(string createdPassword)
+        {
+            
+            try
+            {
+                MailRequest mailRequest = new MailRequest();
+                mailRequest.ToEmail = "isuruanamika@gmail.com";
+                mailRequest.subject = "Welcome To University Of Arizona..";
+                mailRequest.body = "Thanks for registering. Your password is "+createdPassword;
+                await emailService.SendEmailAsync(mailRequest);
+                return new OkResult();
+
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
+        }
 
 
 

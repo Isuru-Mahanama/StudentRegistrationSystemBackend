@@ -24,7 +24,8 @@ namespace StudentRegistrationSystem.Controllers
         public static User user = new User();
         private readonly IConfiguration configuration;
         private readonly IUserRepository userRepository;
-       
+        private readonly IEmailService emailService;
+
 
         //SuperAdmin
 
@@ -33,7 +34,7 @@ namespace StudentRegistrationSystem.Controllers
         static UserController()
         {
             // Initialize super admin details
-            superAdmin = new User
+            superAdmin = new User()
             {
                 userID = 1,
                 email = "superadmin@example.com",
@@ -47,7 +48,7 @@ namespace StudentRegistrationSystem.Controllers
                               IEmailService emailService) {
             this.configuration = configuration;
             this.userRepository = userRepository;
-            
+            this.emailService = emailService;
         }
         //Registering the User
         [HttpPost("register")]
