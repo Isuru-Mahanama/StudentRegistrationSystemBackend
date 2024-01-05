@@ -1,8 +1,12 @@
 ﻿using Microsoft.AspNetCore.Cryptography.KeyDerivation;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using StudentRegistrationSystem.Controllers;
+using StudentRegistrationSystem.Helper;
 using StudentRegistrationSystem.Models.DTO;
 using StudentRegistrationSystem.Repository.Implementation;
+using StudentRegistrationSystem.Repository.Interface;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Security.Cryptography;
@@ -12,7 +16,6 @@ namespace StudentRegistrationSystem.Models.Domain
 {
     public class User
     {
-       
         public string? email { get; set; } 
         public string passwordHash{ get; set; } = GenerateRandomPassword();
         
@@ -27,9 +30,8 @@ namespace StudentRegistrationSystem.Models.Domain
         public bool userStatus { get; set; }
         [JsonIgnore]
         public ICollection<Enrollement> enrollement { get; set; }
-
         [JsonIgnore]
-        public ICollection<Courses> courses { get; set; }   
+        public ICollection<Courses> courses { get; set; }
         private static string GenerateRandomPassword()
         {
             const string allowedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -41,11 +43,19 @@ namespace StudentRegistrationSystem.Models.Domain
             {
                 password[i] = allowedChars[random.Next(allowedChars.Length)];
             }
-            return new string(password);
+            var createdPassword = new string(password);
+            
+           // studentsController.sendMail();
+            return createdPassword;
+           
            // string passwordHash = BCrypt.Net.BCrypt.HashPassword(passwords);
            // return  passwordHash;
            // return new string(password);
         }
+
+     
+
+
 
     }
 

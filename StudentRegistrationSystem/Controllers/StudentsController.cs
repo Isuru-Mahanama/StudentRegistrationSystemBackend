@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.Identity.Client;
 using StudentRegistrationSystem.Data;
+using StudentRegistrationSystem.Helper;
 using StudentRegistrationSystem.Models.Domain;
 using StudentRegistrationSystem.Models.DTO;
 using StudentRegistrationSystem.Repository.Implementation;
@@ -20,11 +21,18 @@ namespace StudentRegistrationSystem.Controllers
         private readonly IStudentRepository studentRepository;
         private readonly IUserRepository userRepository;
         private readonly IAddressRepository addressRepository;
+        private readonly IEmailService emailService;
 
-        public StudentsController(IStudentRepository studentRepository, IUserRepository userRepository, IAddressRepository addressRepository)
+        public StudentsController() { }
+        [ActivatorUtilitiesConstructor]
+        public StudentsController(IStudentRepository studentRepository, 
+                                  IUserRepository userRepository, 
+                                  IAddressRepository addressRepository,
+                                  IEmailService emailService)
         {
             this.studentRepository = studentRepository;
             this.userRepository = userRepository;
+            this.emailService = emailService;
             this.addressRepository = addressRepository;
         }
 
@@ -179,7 +187,28 @@ namespace StudentRegistrationSystem.Controllers
             StudentAddressDTO studentAddressDTO = await studentRepository.getStudentByID(studentID);  // Corrected the variable name
             return studentAddressDTO;  // Return the updated course, not the input parameter
         }
+        [HttpPost]
+        [Route("sendEmail")]
+        public async Task<IActionResult> sendMail()
+        {
+          
+            try
+            {
+                MailRequest mailRequest = new MailRequest();
+                mailRequest.ToEmail = "isuruanamika@gmail.com";
+                mailRequest.subject = "Welcome To University Of Arizona..";
+                mailRequest.body = "Thanks for registering. Your password is ";
+                await emailService.SendEmailAsync(mailRequest);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
 
-      
+        }
+
+
+
     }
 }

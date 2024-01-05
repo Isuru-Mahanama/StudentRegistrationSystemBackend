@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using StudentRegistrationSystem.Helper;
 using StudentRegistrationSystem.Models.Domain;
 using StudentRegistrationSystem.Models.DTO;
 using StudentRegistrationSystem.Repository.Implementation;
@@ -23,11 +24,12 @@ namespace StudentRegistrationSystem.Controllers
         public static User user = new User();
         private readonly IConfiguration configuration;
         private readonly IUserRepository userRepository;
+       
 
         //SuperAdmin
 
         private static User superAdmin;
-
+        
         static UserController()
         {
             // Initialize super admin details
@@ -40,9 +42,12 @@ namespace StudentRegistrationSystem.Controllers
             };
         }
 
-        public UserController(IConfiguration configuration, IUserRepository userRepository) {
+        public UserController(IConfiguration configuration, 
+                              IUserRepository userRepository,
+                              IEmailService emailService) {
             this.configuration = configuration;
             this.userRepository = userRepository;
+            
         }
         //Registering the User
         [HttpPost("register")]
@@ -199,8 +204,7 @@ namespace StudentRegistrationSystem.Controllers
             User user = await userRepository.deleteStudent(studentID);  // Corrected the variable name
             return user;  // Return the updated course, not the input parameter
         }
-
-
+       
 
     }
 }
