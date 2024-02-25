@@ -34,8 +34,11 @@ namespace StudentRegistrationSystem.Repository.Implementation
         public List<Schedulecs> GetSchedulecs()
         {
             List<Schedulecs> schedulecs = applicationDbContext.schedulecs.ToList();
-            // Filter the list based on the Status property
-            List<Schedulecs> filteredSchedulecs = schedulecs.Where(s => s.scheduleStatus == true).ToList();
+            List<Courses> courses = applicationDbContext.courses.ToList();
+             // Filter the list based on the Status property
+            List<Schedulecs> filteredSchedulecs = schedulecs.Where(s => s.scheduleStatus == true &&
+                                                  courses.Any(c => c.courseCode == s.courseCode && c.courseStatus == true))
+                                                  .ToList();
 
             return filteredSchedulecs;
         }

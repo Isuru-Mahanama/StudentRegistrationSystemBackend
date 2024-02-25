@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace StudentRegistrationSystem.Models.Domain
 {
@@ -16,5 +17,10 @@ namespace StudentRegistrationSystem.Models.Domain
         public bool scheduleStatus { get; set; }
         [JsonIgnore]
         public Courses course { get; set; }
+        public DateTime createdDateSchedulecs { get; set; }
+        public Schedulecs()
+        {
+            createdDateSchedulecs = DateTime.Now; // Initialize createdDate with current date and time
+        }
     }
 }

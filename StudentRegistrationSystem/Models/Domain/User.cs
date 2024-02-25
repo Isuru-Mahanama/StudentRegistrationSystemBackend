@@ -35,14 +35,17 @@ namespace StudentRegistrationSystem.Models.Domain
         public ICollection<Enrollement> enrollement { get; set; }
         [JsonIgnore]
         public ICollection<Courses> courses { get; set; }
+        public DateTime createdDate { get; set; }
         public User(IEmailService emailService)
         {
             this.emailService = emailService;
             passwordHash = GenerateRandomPassword();
+            createdDate = DateTime.Now;
         }
 
         public User()
         {
+           
         }
 
         private  string GenerateRandomPassword()
@@ -63,14 +66,12 @@ namespace StudentRegistrationSystem.Models.Domain
             // studentsController.sendMail();
             return passwordHash;
            
-            
-           // return  passwordHash;
-           // return new string(password);
         }
 
 
         public async  Task<IActionResult> sendMail(string createdPassword)
         {
+            StudentsController studentsController = new StudentsController();
             
             try
             {
@@ -78,6 +79,7 @@ namespace StudentRegistrationSystem.Models.Domain
                 mailRequest.ToEmail = "isuruanamika@gmail.com";
                 mailRequest.subject = "Welcome To University Of Arizona..";
                 mailRequest.body = "Thanks for registering. Your password is "+createdPassword;
+                
                 await emailService.SendEmailAsync(mailRequest);
                 return new OkResult();
 
@@ -88,8 +90,6 @@ namespace StudentRegistrationSystem.Models.Domain
             }
 
         }
-
-
 
     }
 

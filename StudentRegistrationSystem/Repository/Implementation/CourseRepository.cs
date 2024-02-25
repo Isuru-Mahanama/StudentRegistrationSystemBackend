@@ -45,7 +45,8 @@ namespace StudentRegistrationSystem.Repository.Implementation
             var courseFromDatabase = await dbContext.courses.FirstOrDefaultAsync(u => u.courseCode == courseCode);
             if (courseFromDatabase != null)
             {
-                Courses courses = new Courses {
+                Courses courses = new Courses
+                {
                     courseName = coursesDTO.courseName,
                     courseCode = coursesDTO.courseCode,
                     semester = coursesDTO.semester,

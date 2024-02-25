@@ -54,15 +54,29 @@ namespace StudentRegistrationSystem.Repository.Implementation
 
            
         }
-
+        public async Task<Enrollement> GetByCoursCodeAndUserIdAsync(string coursCode, int userId)
+        {
+            // Assuming Enrollement has a property named 'coursCode' and 'userID'
+            return await dbContext.enrollements
+                .FirstOrDefaultAsync(e => e.coursCode == coursCode && e.userID == userId);
+        }
         List<string> IEnrollementRepository.findEnrolledCoursesByID(int studentID)
         {
+            List<Courses> courses = dbContext.courses.ToList();
+
             List<string> courseCodeList = dbContext.enrollements
             .Where(e => e.userID == studentID && e.enrollementStatus==true)
             .Select(e => e.coursCode)
             .ToList();
 
-            return courseCodeList;
+            // Filter the courseCodeList based on the courseStatus
+            List<string> enrolledCoursesWithTrueStatus = (from courseCode in courseCodeList
+                                                          join course in courses
+                                                          on courseCode equals course.courseCode
+                                                          where course.courseStatus
+                                                          select courseCode).ToList();
+
+            return enrolledCoursesWithTrueStatus;
         }
     }
 }

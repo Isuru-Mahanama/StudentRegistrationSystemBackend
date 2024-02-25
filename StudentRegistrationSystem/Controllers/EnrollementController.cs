@@ -35,6 +35,12 @@ namespace StudentRegistrationSystem.Controllers
             {
                 return BadRequest(ModelState);
             }
+            var existingEnrollment = await enrollementRepository.GetByCoursCodeAndUserIdAsync(enrolledDetailsDTO.coursCode, enrolledDetailsDTO.userID);
+            if (existingEnrollment != null && existingEnrollment.enrollementStatus == true)
+            {
+                // Enrollment already exists, handle accordingly (e.g., return a conflict response)
+                return Conflict("Enrollment already exists.");
+            }
             var enrollement = new Enrollement()
             {
                 coursCode = enrolledDetailsDTO.coursCode,
@@ -42,6 +48,7 @@ namespace StudentRegistrationSystem.Controllers
                 enrollementStatus = true
             };
             var enrolled = await enrollementRepository.CreateAsync(enrollement);
+            
             return Ok(enrolled);
         }
 
@@ -52,7 +59,12 @@ namespace StudentRegistrationSystem.Controllers
             {
                 return BadRequest(ModelState);
             }
-            
+            var existingEnrollment = await enrollementRepository.GetByCoursCodeAndUserIdAsync(enrolledDetailsDTO.coursCode, enrolledDetailsDTO.userID);
+            if (existingEnrollment != null && existingEnrollment.enrollementStatus == false)
+            {
+                // Enrollment already exists, handle accordingly (e.g., return a conflict response)
+                return Conflict("No enrollemnet to  relevent course.");
+            }
             var enrolled = await enrollementRepository.unEnroll(enrolledDetailsDTO);
             return Ok(enrolled);
         }

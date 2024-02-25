@@ -21,6 +21,11 @@ namespace StudentRegistrationSystem.Models.Domain
         public ICollection<Schedulecs> schedulecs { get; set; }
         [JsonIgnore]
         public ICollection<User> users { get; set; }
+        public DateTime createdDate { get; set; }
 
+        public Courses()
+        {
+            createdDate = DateTime.Now; // Initialize createdDate with current date and time
+        }
     }
 }

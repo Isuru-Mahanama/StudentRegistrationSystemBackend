@@ -65,6 +65,7 @@ namespace StudentRegistrationSystem.Controllers
                 return orderedEmail;
                }
             string email = GenerateOrderedEmail(createdUser.userID);
+           
             //Map the DTO to Domain model
             var createStudent = new Student
             {
@@ -77,7 +78,7 @@ namespace StudentRegistrationSystem.Controllers
                 birthday = request.birthday ,
                 enrolledDate = request.enrolledDate,
                
-        };
+             };
              createdUser.email = email;
 
             var studentAddress = new Address
